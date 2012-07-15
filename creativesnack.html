@@ -1,0 +1,120 @@
+<head>
+  <title>creativesnack</title>
+</head>
+
+<body>
+  <h1>Creative Snack</h1>
+  <div class="content">
+    {{>snacklist}}
+    {{>mainarea}}
+  </div>
+  <div class="clear" />
+  <div class="footer">Powered by <a href="http://www.meteor.com/">meteor.com</a></div>
+</body>
+
+<template name="mainarea">
+  <div class="main">
+    {{>account}}
+    {{#if newsnackmode}}
+      {{>newsnack}}
+    {{else}}
+      {{>selectedsnack}}
+    {{/if}}
+  </div>
+</template>
+
+<template name="newsnack">
+  <div class="newsnack">
+
+    <h2>Select a snack</h2>
+    {{#if loggedin}}
+      <h3>or</h3>
+      <h2>Create a snack</h2>
+      <input placeholder="Name" value="" class="name" id="newsnackname"/><br/>
+      <textarea placeholder="Task / question" value="" class="description" id="newsnackdescription" /></br>
+      <input type="button" value="Save" class="submit"/>
+    {{/if}}
+  </div>
+</template>
+
+<template name="account">
+  <div class="account">
+    {{#if current}}
+      Name: {{current}}
+    {{else}}
+      <input placeholder="Enter your name" value="" class="name" id="loginname"/>
+      <input type="button" value="Login" class="submit"/>
+    {{/if}}
+  </div>
+</template>
+
+<template name="snacklist">
+  <div class="snacklist">
+    <h2>Snacks</h2>
+    {{#each snacks}}
+      <hr />
+      {{>snacklabel}}
+    {{/each}}
+    {{#if loggedin}}
+      <hr />
+      <input type="button" value="New Snack" class="new" />
+    {{/if}}
+  </div>
+</template>
+
+<template name="selectedsnack">
+  <div class="selectedsnack">
+    {{#if snack}}
+      {{#with snack}}
+        {{>snack}}
+      {{/with}}
+    {{else}}
+      <h2>Pick a snack</h2>
+    {{/if}}
+  </div>
+</template>
+
+<template name="snacklabel">
+  <div class="snacklabel" data-id="{{_id}}">
+    <div class="title">{{name}}</div>
+  </div>
+</template>
+
+<template name="snack">
+  <h2>{{name}}</h2>
+  <div class="snack" >
+    <div class="body">{{description}}</div>
+    <div class="author">- {{author}}</div>
+    <div class="clear" />
+  </div>
+  {{#if hasanswers}}
+    <h2>Answers</h2>
+    {{#each answers}}
+      {{>answer}}
+    {{/each}}
+    <hr />
+  {{else}}
+    <h2>No answers yet!</h2>
+  {{/if}}
+  {{#if loggedin}}
+    {{>newanswer}}
+  {{else}}
+    <div>Enter your name and login to answer.</div>
+  {{/if}}
+</template>
+
+  
+<template name="newanswer">
+  <div class="newanswer">
+    <textarea placeholder="Your answer here" value="" id="body" /><br />
+    <input type="button" value="save" class="submit" />
+  </div>
+</template>
+
+<template name="answer">
+  <div class="answer" >
+    <div class="body">{{body}}</div>
+    <div class="author">- {{author}}</div>
+    <div class="clear" />
+  </div>
+</template>
